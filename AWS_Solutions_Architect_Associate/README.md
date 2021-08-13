@@ -111,7 +111,6 @@
     * capacityOptimized: pool with the optimal capacity for the number of instances
   * Spot fleets allows us to automatically request Spot instances with the lowest price
 
-
   #### Dedicated Hosts
   * Physical server with EC2 instance capacity fully dedicated to your use
   * 3 year period reservation
@@ -122,6 +121,41 @@
   * Instances running on hardware dedicated to you
   * May share hardware with other instances in same account
   * An important difference between a Dedicated Host and a Dedicated instance is that a Dedicated Host gives you additional visibility and control over how instances are placed on a physical server, and you can consistently deploy your instances to the same physical server over time. As a result, Dedicated Hosts enable you to use your existing server-bound software licenses and address corporate compliance and regulatory requirements.
+
+  ### EC2 Placement Groups
+  * To control EC2 placement strategy
+
+  Placement group strategies:
+  * Cluster
+    * Clusters instances into low latency group in a single AZ
+    * For low latency and high network throughput use cases, but risk of all instances failing if rack fails
+    * Use cases: Big data job that needs to complete fast, applications that needs low latency and high network throughput
+  * Spread
+    * Spreads instances across underlying hardware (max 7 instances per group per AZ, for critical applications)
+    * Spans across AZs hence reduced risk of failure, maximized high availability
+    * Use cases: Critical applications
+  * Partition
+    * Spreads instances across many different partitions within an AZ, scales to 100 of EC2 instaces per group (Hadoop, Cassandra, Kafka)
+    * Can span across multiple AZs.
+    * Use cases: HDFS, HBase, Cassandra
+
+  ### Elastic IP
+  * EC2 public IP can change if you restart it. If you need a fixed IP for your instance, you need an Elastic IP.
+  * Can only have 5 Elastic IP in your account (can ask AWS to increase that)
+  * Best practice is to try to avoid using Elastic IP and instead use random public IP and register DNS to it. Or, use Load balancer.
+
+  ### Elastic Network Interfaces (ENI)
+  * Logical component in a VPC that represents a virtual network card
+  * Can be moved across instances for purposes of failovers
+
+  ### EC2 Hibernate
+  * Preserves RAM state
+  * Instance boot is much faster
+  * Use cases:
+    * Long-running processing
+    * Saving the RAM state
+    * Services that take a lot of time to initialize
+
 
   ### Useful Online Tool for Searching Instances Type
   To find info of/compare between EC2 instance types: https://instances.vantage.sh/
