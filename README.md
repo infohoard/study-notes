@@ -1,4 +1,4 @@
-# Compilation of study notes for various certifications.
+# Compilation of study notes for various certifications
 
 ## Topics
 * [AWS Solutions Architect Associate](./AWS_Solutions_Architect_Associate/README.md)
