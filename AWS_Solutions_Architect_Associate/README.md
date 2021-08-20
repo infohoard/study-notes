@@ -1,6 +1,6 @@
 # AWS Solutions Architect Associate Study Notes
 
-## EC2
+## Elastic Compute Cloud (EC2)
 <details>
   <summary>Click to expand!</summary>
   
@@ -159,6 +159,67 @@
 
   ### Useful Online Tool for Searching Instances Type
   To find info of/compare between EC2 instance types: https://instances.vantage.sh/
+
+</details>
+
+## EC2 Storage
+<details>
+  <summary>Click to expand!</summary>
+
+  ### Amazon Machine Image (AMI)
+  * Works like a Virtual Machine image
+  * Built for specific region but can be copied to another region
+  * You can create AMI of your existing instances
+  * Can consider creating AMI rather than using EC2 User Data, for faster boot
+
+  ### Elastic Block Storage (EBS)
+  * Network drive that can be attached to your instances
+  * EBS Volume can be detached from one instance and then attached to another, but note that it can only be attached to one instance at any one time
+  * Bound to specific AZ, cannot attach to instance in other AZ. To move to another AZ have to snapshot it first
+  * Provisioned capacity (GBs, IOPS) but can increase capacity over time
+
+  #### Delete On Termination
+  By default for EC2 instances, their root EBS volume has Delete On Termination enabled. In scenarios where you want to preserve the root volume after termination, disable this attribute.
+
+  ### EBS Volume Types
+  * gp2/gp3 - General Purpose SSD, balance price and performance
+  * io1/io2 - Highest Performance SSD for low latency and high throughput
+  * st1 - Low cost HDD for frequently accessed, throughput intensive workloads
+  * sc1 - Lowest cost HDD for less frequently accessed workloads
+
+  For performance comparison, best to refer to tables in this link: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html
+
+  ### EBS Multi-attach
+  * For io1/io2 family
+  * Attach same EBS Volume to multiple EC2 instances in same AZ, with full read/write by all instances
+  * Use case:
+    * Achieve higher application availability in clustered Linux applications (e.g. Teradata)
+    * Application must be able to manage concurrent write operations
+
+  ### EBS Encryption
+  * Snapshots of encrypted volumes are encrypted
+  * To encrypt an unencrypted volume:
+    * Create EBS snapshot of volume
+    * Encrypt the EBS snapshot (using copy)
+    * Create new EBS volume from snapshot (the volume will also be encrypted)
+    * Attach volume to original instance
+  
+  ### EBS Raid Options
+  * RAID 0 (Increase performance, but no fault tolerance)
+  * RAID 1 (Increase fault-tolerance)
+  * RAID 5 (not recommended for EBS)
+  * RAID 6 (not recommended for EBS)
+
+  ### Elastic File System (EFS)
+  * Managed NFS that can be mounted on many EC2
+  * Works with EC2 instances across AZs
+  * Highly available, scales automatically, expensive (3x gp2), pay per use
+  * Only for Linux instances
+
+  ### EC2 Instance Store
+  * High-performance hardware disk, physically attached to the server, very high IOPS
+  * Loses their storage if stopped, and risk of data loss if hardware fails
+  * Good for buffer/cache/scratch data/temporary content
 
 </details>
 
